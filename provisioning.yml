@@ -12,4 +12,13 @@
         name: wordpress_db
         login_user: root
         state: present
-        
+
+   -  name: 'Cria o usuario no MySQL'
+      mysql_user:
+        login_user: root
+        name: wordpress_user
+        password: '12345'
+        priv: 'wordpress_db.*:ALL'
+        state: present
+        update_password: on_create
+
