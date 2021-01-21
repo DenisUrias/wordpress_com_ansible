@@ -7,15 +7,9 @@
         state: latest
       become: yes
 
-      
-#   - name: 'Instala Apache2'
-#     apt: 
-#        name: apache2
-#        state: latest
-#     become: yes
-#   - name: 'Instala ModPHP'
-#     apt:
-#  name: libapache2-mod-php5
-#        state: latest
-#     become: yes
-
+   -  name: 'Cria o bando do MySQL'
+      mysql_db:
+        name: wordpress_db
+        login_user: root
+        state: present
+        
