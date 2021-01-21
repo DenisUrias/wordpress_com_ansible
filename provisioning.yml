@@ -1,5 +1,12 @@
 ---
 - hosts: database
+  handlers:
+   -  name: restart mysql
+      service:
+        name: mysql
+        state: restarted
+      become: yes 
+
   tasks:
 
    -  name: 'Instala pacotes do SO'
@@ -21,7 +28,19 @@
         password: '12345'
         priv: 'wordpress_db.*:ALL'
         state: present
-        update_password: on_create
+        host: "{{ item }}"
+      with_items:
+        - 'localhost'
+        - '127.0.0.1'
+        - '172.17.177.40'
+
+   -  name: 'Configura o banco para aceitar conexoes externas'
+      copy:
+        src: 'files/my.cnf'
+        dest: '/etc/mysql/my.cnf'
+      become: yes
+      notify:
+        - restart mysql
 
 - hosts: wordpress
   handlers:
@@ -72,6 +91,7 @@
         - { regex: 'nome_do_banco_de_dados_aqui', value: 'wordpress_db'}
         - { regex: 'nome_de_usuario_aqui', value: 'wordpress_user'}
         - { regex: 'senha_aqui', value: '12345'}   
+        - { regex: 'localhost', value: '172.17.177.42'}  
       become: yes
 
    -  name: 'Configura Apache para servir o Wordpress'
