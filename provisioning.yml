@@ -1,19 +1,21 @@
 ---
 - hosts: all
   tasks:
-   - name: 'Instala PHP5'
-     apt:
-        name: php5
+   -  name: 'Instala pacotes do SO'
+      apt:
+        name: ['php5', 'apache2', 'libapache2-mod-php5', 'php5-gd']
         state: latest
-     become: yes
-   - name: 'Instala Apache2'
-     apt: 
-        name: apache2
-        state: latest
-     become: yes
-   - name: 'Instala ModPHP'
-     apt:
-        name: libapache2-mod-php5
-        state: latest
-     become: yes
+      become: yes
+
+      
+#   - name: 'Instala Apache2'
+#     apt: 
+#        name: apache2
+#        state: latest
+#     become: yes
+#   - name: 'Instala ModPHP'
+#     apt:
+#  name: libapache2-mod-php5
+#        state: latest
+#     become: yes
 
